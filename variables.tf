@@ -1,0 +1,284 @@
+variable "app_service_slots" {
+  description = <<EOT
+Map of app_service_slots, attributes below
+Required:
+    - app_service_name
+    - app_service_plan_id
+    - location
+    - name
+    - resource_group_name
+Optional:
+    - app_settings
+    - client_affinity_enabled
+    - enabled
+    - https_only
+    - key_vault_reference_identity_id
+    - tags
+    - auth_settings (block):
+        - active_directory (optional, block):
+            - allowed_audiences (optional)
+            - client_id (required)
+            - client_secret (optional)
+        - additional_login_params (optional)
+        - allowed_external_redirect_urls (optional)
+        - default_provider (optional)
+        - enabled (required)
+        - facebook (optional, block):
+            - app_id (required)
+            - app_secret (required)
+            - oauth_scopes (optional)
+        - google (optional, block):
+            - client_id (required)
+            - client_secret (required)
+            - oauth_scopes (optional)
+        - issuer (optional)
+        - microsoft (optional, block):
+            - client_id (required)
+            - client_secret (required)
+            - oauth_scopes (optional)
+        - runtime_version (optional)
+        - token_refresh_extension_hours (optional)
+        - token_store_enabled (optional)
+        - twitter (optional, block):
+            - consumer_key (required)
+            - consumer_secret (required)
+        - unauthenticated_client_action (optional)
+    - connection_string (block):
+        - name (required)
+        - type (required)
+        - value (required)
+    - identity (block):
+        - identity_ids (optional)
+        - type (required)
+    - logs (block):
+        - application_logs (optional, block):
+            - azure_blob_storage (optional, block):
+                - level (required)
+                - retention_in_days (required)
+                - sas_url (required)
+            - file_system_level (optional)
+        - detailed_error_messages_enabled (optional)
+        - failed_request_tracing_enabled (optional)
+        - http_logs (optional, block):
+            - azure_blob_storage (optional, block):
+                - retention_in_days (required)
+                - sas_url (required)
+            - file_system (optional, block):
+                - retention_in_days (required)
+                - retention_in_mb (required)
+    - site_config (block):
+        - acr_use_managed_identity_credentials (optional)
+        - acr_user_managed_identity_client_id (optional)
+        - always_on (optional)
+        - app_command_line (optional)
+        - auto_swap_slot_name (optional)
+        - cors (optional, block):
+            - allowed_origins (required)
+            - support_credentials (optional)
+        - default_documents (optional)
+        - dotnet_framework_version (optional)
+        - ftps_state (optional)
+        - health_check_path (optional)
+        - http2_enabled (optional)
+        - ip_restriction (optional, block):
+            - action (optional)
+            - headers (optional, block):
+                - x_azure_fdid (optional)
+                - x_fd_health_probe (optional)
+                - x_forwarded_for (optional)
+                - x_forwarded_host (optional)
+            - ip_address (optional)
+            - name (optional)
+            - priority (optional)
+            - service_tag (optional)
+            - virtual_network_subnet_id (optional)
+        - java_container (optional)
+        - java_container_version (optional)
+        - java_version (optional)
+        - linux_fx_version (optional)
+        - local_mysql_enabled (optional)
+        - managed_pipeline_mode (optional)
+        - min_tls_version (optional)
+        - number_of_workers (optional)
+        - php_version (optional)
+        - python_version (optional)
+        - remote_debugging_enabled (optional)
+        - remote_debugging_version (optional)
+        - scm_ip_restriction (optional, block):
+            - action (optional)
+            - headers (optional, block):
+                - x_azure_fdid (optional)
+                - x_fd_health_probe (optional)
+                - x_forwarded_for (optional)
+                - x_forwarded_host (optional)
+            - ip_address (optional)
+            - name (optional)
+            - priority (optional)
+            - service_tag (optional)
+            - virtual_network_subnet_id (optional)
+        - scm_type (optional)
+        - scm_use_main_ip_restriction (optional)
+        - use_32_bit_worker_process (optional)
+        - vnet_route_all_enabled (optional)
+        - websockets_enabled (optional)
+        - windows_fx_version (optional)
+    - storage_account (block):
+        - access_key (required)
+        - account_name (required)
+        - mount_path (optional)
+        - name (required)
+        - share_name (required)
+        - type (required)
+EOT
+
+  type = map(object({
+    app_service_name                = string
+    app_service_plan_id             = string
+    location                        = string
+    name                            = string
+    resource_group_name             = string
+    app_settings                    = optional(map(string))
+    client_affinity_enabled         = optional(bool)
+    enabled                         = optional(bool, true)
+    https_only                      = optional(bool, false)
+    key_vault_reference_identity_id = optional(string)
+    tags                            = optional(map(string))
+    auth_settings = optional(object({
+      active_directory = optional(object({
+        allowed_audiences = optional(list(string))
+        client_id         = string
+        client_secret     = optional(string)
+      }))
+      additional_login_params        = optional(map(string))
+      allowed_external_redirect_urls = optional(list(string))
+      default_provider               = optional(string)
+      enabled                        = bool
+      facebook = optional(object({
+        app_id       = string
+        app_secret   = string
+        oauth_scopes = optional(list(string))
+      }))
+      google = optional(object({
+        client_id     = string
+        client_secret = string
+        oauth_scopes  = optional(list(string))
+      }))
+      issuer = optional(string)
+      microsoft = optional(object({
+        client_id     = string
+        client_secret = string
+        oauth_scopes  = optional(list(string))
+      }))
+      runtime_version               = optional(string)
+      token_refresh_extension_hours = optional(number, 72)
+      token_store_enabled           = optional(bool, false)
+      twitter = optional(object({
+        consumer_key    = string
+        consumer_secret = string
+      }))
+      unauthenticated_client_action = optional(string)
+    }))
+    connection_string = optional(object({
+      name  = string
+      type  = string
+      value = string
+    }))
+    identity = optional(object({
+      identity_ids = optional(set(string))
+      type         = string
+    }))
+    logs = optional(object({
+      application_logs = optional(object({
+        azure_blob_storage = optional(object({
+          level             = string
+          retention_in_days = number
+          sas_url           = string
+        }))
+        file_system_level = optional(string, "Off")
+      }))
+      detailed_error_messages_enabled = optional(bool, false)
+      failed_request_tracing_enabled  = optional(bool, false)
+      http_logs = optional(object({
+        azure_blob_storage = optional(object({
+          retention_in_days = number
+          sas_url           = string
+        }))
+        file_system = optional(object({
+          retention_in_days = number
+          retention_in_mb   = number
+        }))
+      }))
+    }))
+    site_config = optional(object({
+      acr_use_managed_identity_credentials = optional(bool, false)
+      acr_user_managed_identity_client_id  = optional(string)
+      always_on                            = optional(bool, false)
+      app_command_line                     = optional(string)
+      auto_swap_slot_name                  = optional(string)
+      cors = optional(object({
+        allowed_origins     = set(string)
+        support_credentials = optional(bool, false)
+      }))
+      default_documents        = optional(list(string))
+      dotnet_framework_version = optional(string, "v4.0")
+      ftps_state               = optional(string)
+      health_check_path        = optional(string)
+      http2_enabled            = optional(bool, false)
+      ip_restriction = optional(object({
+        action = optional(string, "Allow")
+        headers = optional(object({
+          x_azure_fdid      = optional(set(string))
+          x_fd_health_probe = optional(set(string))
+          x_forwarded_for   = optional(set(string))
+          x_forwarded_host  = optional(set(string))
+        }))
+        ip_address                = optional(string)
+        name                      = optional(string)
+        priority                  = optional(number, 65000)
+        service_tag               = optional(string)
+        virtual_network_subnet_id = optional(string)
+      }))
+      java_container           = optional(string)
+      java_container_version   = optional(string)
+      java_version             = optional(string)
+      linux_fx_version         = optional(string)
+      local_mysql_enabled      = optional(bool)
+      managed_pipeline_mode    = optional(string)
+      min_tls_version          = optional(string)
+      number_of_workers        = optional(number)
+      php_version              = optional(string)
+      python_version           = optional(string)
+      remote_debugging_enabled = optional(bool, false)
+      remote_debugging_version = optional(string)
+      scm_ip_restriction = optional(object({
+        action = optional(string, "Allow")
+        headers = optional(object({
+          x_azure_fdid      = optional(set(string))
+          x_fd_health_probe = optional(set(string))
+          x_forwarded_for   = optional(set(string))
+          x_forwarded_host  = optional(set(string))
+        }))
+        ip_address                = optional(string)
+        name                      = optional(string)
+        priority                  = optional(number, 65000)
+        service_tag               = optional(string)
+        virtual_network_subnet_id = optional(string)
+      }))
+      scm_type                    = optional(string)
+      scm_use_main_ip_restriction = optional(bool, false)
+      use_32_bit_worker_process   = optional(bool)
+      vnet_route_all_enabled      = optional(bool)
+      websockets_enabled          = optional(bool)
+      windows_fx_version          = optional(string)
+    }))
+    storage_account = optional(object({
+      access_key   = string
+      account_name = string
+      mount_path   = optional(string)
+      name         = string
+      share_name   = string
+      type         = string
+    }))
+  }))
+}
+
