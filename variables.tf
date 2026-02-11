@@ -139,8 +139,8 @@ EOT
     resource_group_name             = string
     app_settings                    = optional(map(string))
     client_affinity_enabled         = optional(bool)
-    enabled                         = optional(bool, true)
-    https_only                      = optional(bool, false)
+    enabled                         = optional(bool) # Default: true
+    https_only                      = optional(bool) # Default: false
     key_vault_reference_identity_id = optional(string)
     tags                            = optional(map(string))
     auth_settings = optional(object({
@@ -170,8 +170,8 @@ EOT
         oauth_scopes  = optional(list(string))
       }))
       runtime_version               = optional(string)
-      token_refresh_extension_hours = optional(number, 72)
-      token_store_enabled           = optional(bool, false)
+      token_refresh_extension_hours = optional(number) # Default: 72
+      token_store_enabled           = optional(bool)   # Default: false
       twitter = optional(object({
         consumer_key    = string
         consumer_secret = string
@@ -194,10 +194,10 @@ EOT
           retention_in_days = number
           sas_url           = string
         }))
-        file_system_level = optional(string, "Off")
+        file_system_level = optional(string) # Default: "Off"
       }))
-      detailed_error_messages_enabled = optional(bool, false)
-      failed_request_tracing_enabled  = optional(bool, false)
+      detailed_error_messages_enabled = optional(bool) # Default: false
+      failed_request_tracing_enabled  = optional(bool) # Default: false
       http_logs = optional(object({
         azure_blob_storage = optional(object({
           retention_in_days = number
@@ -210,22 +210,22 @@ EOT
       }))
     }))
     site_config = optional(object({
-      acr_use_managed_identity_credentials = optional(bool, false)
+      acr_use_managed_identity_credentials = optional(bool) # Default: false
       acr_user_managed_identity_client_id  = optional(string)
-      always_on                            = optional(bool, false)
+      always_on                            = optional(bool) # Default: false
       app_command_line                     = optional(string)
       auto_swap_slot_name                  = optional(string)
       cors = optional(object({
         allowed_origins     = set(string)
-        support_credentials = optional(bool, false)
+        support_credentials = optional(bool) # Default: false
       }))
       default_documents        = optional(list(string))
-      dotnet_framework_version = optional(string, "v4.0")
+      dotnet_framework_version = optional(string) # Default: "v4.0"
       ftps_state               = optional(string)
       health_check_path        = optional(string)
-      http2_enabled            = optional(bool, false)
+      http2_enabled            = optional(bool) # Default: false
       ip_restriction = optional(object({
-        action = optional(string, "Allow")
+        action = optional(string) # Default: "Allow"
         headers = optional(object({
           x_azure_fdid      = optional(set(string))
           x_fd_health_probe = optional(set(string))
@@ -234,7 +234,7 @@ EOT
         }))
         ip_address                = optional(string)
         name                      = optional(string)
-        priority                  = optional(number, 65000)
+        priority                  = optional(number) # Default: 65000
         service_tag               = optional(string)
         virtual_network_subnet_id = optional(string)
       }))
@@ -248,10 +248,10 @@ EOT
       number_of_workers        = optional(number)
       php_version              = optional(string)
       python_version           = optional(string)
-      remote_debugging_enabled = optional(bool, false)
+      remote_debugging_enabled = optional(bool) # Default: false
       remote_debugging_version = optional(string)
       scm_ip_restriction = optional(object({
-        action = optional(string, "Allow")
+        action = optional(string) # Default: "Allow"
         headers = optional(object({
           x_azure_fdid      = optional(set(string))
           x_fd_health_probe = optional(set(string))
@@ -260,12 +260,12 @@ EOT
         }))
         ip_address                = optional(string)
         name                      = optional(string)
-        priority                  = optional(number, 65000)
+        priority                  = optional(number) # Default: 65000
         service_tag               = optional(string)
         virtual_network_subnet_id = optional(string)
       }))
       scm_type                    = optional(string)
-      scm_use_main_ip_restriction = optional(bool, false)
+      scm_use_main_ip_restriction = optional(bool) # Default: false
       use_32_bit_worker_process   = optional(bool)
       vnet_route_all_enabled      = optional(bool)
       websockets_enabled          = optional(bool)
