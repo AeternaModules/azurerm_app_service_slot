@@ -1,3 +1,7 @@
+output "app_service_slots_id" {
+  description = "Map of id values across all app_service_slots, keyed the same as var.app_service_slots"
+  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => v.id }
+}
 output "app_service_slots_app_service_name" {
   description = "Map of app_service_name values across all app_service_slots, keyed the same as var.app_service_slots"
   value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => v.app_service_name }
