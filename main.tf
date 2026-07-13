@@ -150,7 +150,7 @@ resource "azurerm_app_service_slot" "app_service_slots" {
         content {
           action = ip_restriction.value.action
           dynamic "headers" {
-            for_each = ip_restriction.value.headers != null ? [ip_restriction.value.headers] : []
+            for_each = ip_restriction.value.headers != null ? ip_restriction.value.headers : []
             content {
               x_azure_fdid      = headers.value.x_azure_fdid
               x_fd_health_probe = headers.value.x_fd_health_probe
@@ -182,7 +182,7 @@ resource "azurerm_app_service_slot" "app_service_slots" {
         content {
           action = scm_ip_restriction.value.action
           dynamic "headers" {
-            for_each = scm_ip_restriction.value.headers != null ? [scm_ip_restriction.value.headers] : []
+            for_each = scm_ip_restriction.value.headers != null ? scm_ip_restriction.value.headers : []
             content {
               x_azure_fdid      = headers.value.x_azure_fdid
               x_fd_health_probe = headers.value.x_fd_health_probe
