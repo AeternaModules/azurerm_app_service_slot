@@ -16,7 +16,7 @@ output "app_service_slots_app_settings" {
 }
 output "app_service_slots_auth_settings" {
   description = "Map of auth_settings values across all app_service_slots, keyed the same as var.app_service_slots"
-  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => v.auth_settings if v.auth_settings != null && length(v.auth_settings) > 0 }
+  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => one(v.auth_settings) if v.auth_settings != null && length(v.auth_settings) > 0 }
   sensitive   = true
 }
 output "app_service_slots_client_affinity_enabled" {
@@ -42,7 +42,7 @@ output "app_service_slots_https_only" {
 }
 output "app_service_slots_identity" {
   description = "Map of identity values across all app_service_slots, keyed the same as var.app_service_slots"
-  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => v.identity if v.identity != null && length(v.identity) > 0 }
+  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => one(v.identity) if v.identity != null && length(v.identity) > 0 }
 }
 output "app_service_slots_key_vault_reference_identity_id" {
   description = "Map of key_vault_reference_identity_id values across all app_service_slots, keyed the same as var.app_service_slots"
@@ -54,7 +54,7 @@ output "app_service_slots_location" {
 }
 output "app_service_slots_logs" {
   description = "Map of logs values across all app_service_slots, keyed the same as var.app_service_slots"
-  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => v.logs if v.logs != null && length(v.logs) > 0 }
+  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => one(v.logs) if v.logs != null && length(v.logs) > 0 }
   sensitive   = true
 }
 output "app_service_slots_name" {
@@ -67,7 +67,7 @@ output "app_service_slots_resource_group_name" {
 }
 output "app_service_slots_site_config" {
   description = "Map of site_config values across all app_service_slots, keyed the same as var.app_service_slots"
-  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => v.site_config if v.site_config != null && length(v.site_config) > 0 }
+  value       = { for k, v in azurerm_app_service_slot.app_service_slots : k => one(v.site_config) if v.site_config != null && length(v.site_config) > 0 }
 }
 output "app_service_slots_site_credential" {
   description = "Map of site_credential values across all app_service_slots, keyed the same as var.app_service_slots"
